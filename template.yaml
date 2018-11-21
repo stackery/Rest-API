@@ -1,54 +1,54 @@
 AWSTemplateFormatVersion: 2010-09-09
 Transform: AWS::Serverless-2016-10-31
 Resources:
-  api9B9685EE:
+  apiA2D98C62:
     Type: AWS::Serverless::Api
     Properties:
       Name: !Sub
         - ${ResourceName} From Stackery Stack ${StackeryStackTagName} Environment ${StackeryEnvironmentTagName}
-        - ResourceName: myAPI
+        - ResourceName: RestAPI
       StageName: !Ref StackeryEnvironmentAPIGatewayStageName
       DefinitionBody:
         openapi: '3.0'
         info: {}
         paths:
-          /users:
+          /:
             get:
               x-amazon-apigateway-integration:
                 httpMethod: POST
                 type: aws_proxy
-                uri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${functionF9274A6D.Arn}/invocations
+                uri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${functionA1FC359E.Arn}/invocations
               responses: {}
           /users/{id}:
             put:
               x-amazon-apigateway-integration:
                 httpMethod: POST
                 type: aws_proxy
-                uri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${function34190046.Arn}/invocations
+                uri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${functionE010773C.Arn}/invocations
               responses: {}
             post:
               x-amazon-apigateway-integration:
                 httpMethod: POST
                 type: aws_proxy
-                uri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${functionE80DB89D.Arn}/invocations
+                uri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${functionB878567F.Arn}/invocations
               responses: {}
             delete:
               x-amazon-apigateway-integration:
                 httpMethod: POST
                 type: aws_proxy
-                uri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${functionEA999E03.Arn}/invocations
+                uri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${functionE6C2586A.Arn}/invocations
               responses: {}
       EndpointConfiguration: REGIONAL
     Metadata:
-      StackeryName: myAPI
-  functionE80DB89D:
+      StackeryName: RestAPI
+  functionB878567F:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: !Sub ${AWS::StackName}-functionE80DB89D
+      FunctionName: !Sub ${AWS::StackName}-functionB878567F
       Description: !Sub
         - Stackery Stack ${StackeryStackTagName} Environment ${StackeryEnvironmentTagName} Function ${ResourceName}
-        - ResourceName: functionE80DB89D
-      CodeUri: src/functionE80DB89D
+        - ResourceName: functionB878567F
+      CodeUri: src/functionB878567F
       Handler: index.handler
       Runtime: nodejs8.10
       MemorySize: 3008
@@ -57,26 +57,26 @@ Resources:
       Policies:
         - AWSXrayWriteOnlyAccess
         - DynamoDBCrudPolicy:
-            TableName: !Ref table8FEC90F1
+            TableName: !Ref table634A33B4
       Events:
-        api9B9685EEPOSTusersid:
+        apiA2D98C62POSTusersid:
           Type: Api
           Properties:
             Path: /users/{id}
             Method: POST
-            RestApiId: !Ref api9B9685EE
+            RestApiId: !Ref apiA2D98C62
       Environment:
         Variables:
-          TABLE_NAME: !Ref table8FEC90F1
-          TABLE_ARN: !GetAtt table8FEC90F1.Arn
-  functionF9274A6D:
+          TABLE_NAME: !Ref table634A33B4
+          TABLE_ARN: !GetAtt table634A33B4.Arn
+  functionA1FC359E:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: !Sub ${AWS::StackName}-functionF9274A6D
+      FunctionName: !Sub ${AWS::StackName}-functionA1FC359E
       Description: !Sub
         - Stackery Stack ${StackeryStackTagName} Environment ${StackeryEnvironmentTagName} Function ${ResourceName}
-        - ResourceName: functionF9274A6D
-      CodeUri: src/functionF9274A6D
+        - ResourceName: functionA1FC359E
+      CodeUri: src/functionA1FC359E
       Handler: index.handler
       Runtime: nodejs8.10
       MemorySize: 3008
@@ -85,26 +85,26 @@ Resources:
       Policies:
         - AWSXrayWriteOnlyAccess
         - DynamoDBCrudPolicy:
-            TableName: !Ref table8FEC90F1
+            TableName: !Ref table634A33B4
       Events:
-        api9B9685EEGETusers:
+        apiA2D98C62GET:
           Type: Api
           Properties:
-            Path: /users
+            Path: /
             Method: GET
-            RestApiId: !Ref api9B9685EE
+            RestApiId: !Ref apiA2D98C62
       Environment:
         Variables:
-          TABLE_NAME: !Ref table8FEC90F1
-          TABLE_ARN: !GetAtt table8FEC90F1.Arn
-  function34190046:
+          TABLE_NAME: !Ref table634A33B4
+          TABLE_ARN: !GetAtt table634A33B4.Arn
+  functionE010773C:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: !Sub ${AWS::StackName}-function34190046
+      FunctionName: !Sub ${AWS::StackName}-functionE010773C
       Description: !Sub
         - Stackery Stack ${StackeryStackTagName} Environment ${StackeryEnvironmentTagName} Function ${ResourceName}
-        - ResourceName: function34190046
-      CodeUri: src/function34190046
+        - ResourceName: functionE010773C
+      CodeUri: src/functionE010773C
       Handler: index.handler
       Runtime: nodejs8.10
       MemorySize: 3008
@@ -113,26 +113,26 @@ Resources:
       Policies:
         - AWSXrayWriteOnlyAccess
         - DynamoDBCrudPolicy:
-            TableName: !Ref table8FEC90F1
+            TableName: !Ref table634A33B4
       Events:
-        api9B9685EEPUTusersid:
+        apiA2D98C62PUTusersid:
           Type: Api
           Properties:
             Path: /users/{id}
             Method: PUT
-            RestApiId: !Ref api9B9685EE
+            RestApiId: !Ref apiA2D98C62
       Environment:
         Variables:
-          TABLE_NAME: !Ref table8FEC90F1
-          TABLE_ARN: !GetAtt table8FEC90F1.Arn
-  functionEA999E03:
+          TABLE_NAME: !Ref table634A33B4
+          TABLE_ARN: !GetAtt table634A33B4.Arn
+  functionE6C2586A:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: !Sub ${AWS::StackName}-functionEA999E03
+      FunctionName: !Sub ${AWS::StackName}-functionE6C2586A
       Description: !Sub
         - Stackery Stack ${StackeryStackTagName} Environment ${StackeryEnvironmentTagName} Function ${ResourceName}
-        - ResourceName: functionEA999E03
-      CodeUri: src/functionEA999E03
+        - ResourceName: functionE6C2586A
+      CodeUri: src/functionE6C2586A
       Handler: index.handler
       Runtime: nodejs8.10
       MemorySize: 3008
@@ -141,19 +141,19 @@ Resources:
       Policies:
         - AWSXrayWriteOnlyAccess
         - DynamoDBCrudPolicy:
-            TableName: !Ref table8FEC90F1
+            TableName: !Ref table634A33B4
       Events:
-        api9B9685EEDELETEusersid:
+        apiA2D98C62DELETEusersid:
           Type: Api
           Properties:
             Path: /users/{id}
             Method: DELETE
-            RestApiId: !Ref api9B9685EE
+            RestApiId: !Ref apiA2D98C62
       Environment:
         Variables:
-          TABLE_NAME: !Ref table8FEC90F1
-          TABLE_ARN: !GetAtt table8FEC90F1.Arn
-  table8FEC90F1:
+          TABLE_NAME: !Ref table634A33B4
+          TABLE_ARN: !GetAtt table634A33B4.Arn
+  table634A33B4:
     Type: AWS::DynamoDB::Table
     Properties:
       AttributeDefinitions:
@@ -167,7 +167,7 @@ Resources:
         WriteCapacityUnits: 5
       StreamSpecification:
         StreamViewType: NEW_AND_OLD_IMAGES
-      TableName: !Sub ${AWS::StackName}-table8FEC90F1
+      TableName: !Sub ${AWS::StackName}-table634A33B4
 Parameters:
   StackeryStackTagName:
     Type: String
