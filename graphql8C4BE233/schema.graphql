@@ -1,0 +1,33 @@
+type Question {
+  id: ID!
+  text: String!
+  explanation: String
+  answer: Answer
+}
+
+type Query {
+  getQuestion(id: ID!): Question
+  getAnswer(id: ID!): Answer
+}
+ 
+type Answer {
+  id: ID!
+  text: String!
+  details: String
+}
+
+type User {
+  id: ID!
+  name: String
+  age: Int
+  answers: [Answer]
+}
+
+input CreateQuestionInput {
+  text: String!
+  explanation: String
+}
+
+type Mutation {
+  createQuestion(input: CreateQuestionInput!): Question
+}
