@@ -1,109 +1,21 @@
 AWSTemplateFormatVersion: 2010-09-09
 Transform: AWS::Serverless-2016-10-31
 Resources:
-  graphql8C4BE233:
-    Type: AWS::AppSync::GraphQLApi
+  test:
+    Type: AWS::Serverless::Function
     Properties:
-      Name: !Sub
-        - ${ResourceName} From Stack ${StackTagName} Environment ${EnvironmentTagName}
-        - ResourceName: graphql8C4BE233
-      AuthenticationType: API_KEY
-      LogConfig:
-        FieldLogLevel: ERROR
-        CloudWatchLogsRoleArn: !GetAtt graphql8C4BE233LogsRole.Arn
-  graphql8C4BE233Schema:
-    Type: AWS::AppSync::GraphQLSchema
-    Properties:
-      ApiId: !GetAtt graphql8C4BE233.ApiId
-      DefinitionS3Location: graphql8C4BE233/schema.graphql
-  graphql8C4BE233LogsRole:
-    Type: AWS::IAM::Role
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: 2012-10-17
-        Statement:
-          Effect: Allow
-          Principal:
-            Service: appsync.amazonaws.com
-          Action: sts:AssumeRole
-      RoleName: !Sub ${AWS::StackName}-graphql8C4BE233-logging
+      FunctionName: !Sub ${AWS::StackName}-test
+      Description: !Sub
+        - Stack ${StackTagName} Environment ${EnvironmentTagName} test ${ResourceName}
+        - ResourceName: test
+      CodeUri: src/blahblah
+      Handler: index.handler
+      Runtime: nodejs8.10
+      MemorySize: 3008
+      Timeout: 30
+      Tracing: Active
       Policies:
-        - PolicyName: Log
-          PolicyDocument:
-            Version: 2012-10-17
-            Statement:
-              - Effect: Allow
-                Action:
-                  - logs:CreateLogGroup
-                  - logs:CreateLogStream
-                  - logs:PutLogEvents
-                Resource:
-                  - !Sub arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/appsync/apis/*
-                  - !Sub arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/appsync/apis/*:log-stream:*
-  tableD2A836A8:
-    Type: AWS::DynamoDB::Table
-    Properties:
-      AttributeDefinitions:
-        - AttributeName: id
-          AttributeType: S
-      KeySchema:
-        - AttributeName: id
-          KeyType: HASH
-      ProvisionedThroughput:
-        ReadCapacityUnits: 5
-        WriteCapacityUnits: 5
-      StreamSpecification:
-        StreamViewType: NEW_AND_OLD_IMAGES
-      TableName: !Sub ${AWS::StackName}-tableD2A836A8
-  graphql8C4BE233MutationcreateQuestionResolver:
-    Type: AWS::AppSync::Resolver
-    Properties:
-      TypeName: Mutation
-      DataSourceName: !GetAtt graphql8C4BE233TotableD2A836A8DataSource.Name
-      RequestMappingTemplateS3Location: graphql8C4BE233/Mutation-createQuestion-request.vm
-      ResponseMappingTemplateS3Location: graphql8C4BE233/Mutation-createQuestion-response.vm
-      ApiId: !GetAtt graphql8C4BE233.ApiId
-      FieldName: createQuestion
-    DependsOn: graphql8C4BE233Schema
-  graphql8C4BE233TotableD2A836A8DataSource:
-    Type: AWS::AppSync::DataSource
-    Properties:
-      Type: AMAZON_DYNAMODB
-      ServiceRoleArn: !GetAtt graphql8C4BE233TotableD2A836A8AccessRole.Arn
-      ApiId: !GetAtt graphql8C4BE233.ApiId
-      Name: tableD2A836A8
-      DynamoDBConfig:
-        TableName: !Ref tableD2A836A8
-        AwsRegion: !Ref AWS::Region
-  graphql8C4BE233TotableD2A836A8AccessRole:
-    Type: AWS::IAM::Role
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: 2012-10-17
-        Statement:
-          Effect: Allow
-          Principal:
-            Service: appsync.amazonaws.com
-          Action: sts:AssumeRole
-      RoleName: !Sub ${AWS::StackName}-graphql8C4BE233-to-tableD2A836A8
-      Policies:
-        - PolicyName: Access
-          PolicyDocument:
-            Version: 2012-10-17
-            Statement:
-              - Effect: Allow
-                Action:
-                  - dynamodb:GetItem
-                  - dynamodb:PutItem
-                  - dynamodb:DeleteItem
-                  - dynamodb:UpdateItem
-                  - dynamodb:Query
-                  - dynamodb:Scan
-                  - dynamodb:BatchGetItem
-                  - dynamodb:BatchWriteItem
-                Resource:
-                  - !GetAtt tableD2A836A8.Arn
-                  - !Sub ${tableD2A836A8.Arn}/index/*
+        - AWSXrayWriteOnlyAccess
 Parameters:
   StackTagName:
     Type: String
