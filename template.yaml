@@ -8,7 +8,7 @@ Resources:
       Description: !Sub
         - Stack ${StackTagName} Environment ${EnvironmentTagName} test ${ResourceName}
         - ResourceName: test
-      CodeUri: src/blahblah
+      CodeUri: src/newPath
       Handler: index.handler
       Runtime: nodejs8.10
       MemorySize: 3008
