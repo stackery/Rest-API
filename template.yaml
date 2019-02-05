@@ -1,13 +1,13 @@
 AWSTemplateFormatVersion: 2010-09-09
 Transform: AWS::Serverless-2016-10-31
 Resources:
-  test:
+  test123:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: !Sub ${AWS::StackName}-test
+      FunctionName: !Sub ${AWS::StackName}-test123123
       Description: !Sub
-        - Stack ${StackTagName} Environment ${EnvironmentTagName} test ${ResourceName}
-        - ResourceName: test
+        - Stack ${StackTagName} Environment ${EnvironmentTagName} test123123 ${ResourceName}
+        - ResourceName: test123
       CodeUri: src/newPath
       Handler: index.handler
       Runtime: nodejs8.10
