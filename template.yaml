@@ -8,9 +8,9 @@ Resources:
       Description: !Sub
         - Stack ${StackTagName} Environment ${EnvironmentTagName} test ${ResourceName}
         - ResourceName: test
-      CodeUri: src/test
-      Handler: index.handler
-      Runtime: nodejs8.10
+      CodeUri: src/newsrcpath
+      Handler: handler.handler
+      Runtime: python2.7
       MemorySize: 3008
       Timeout: 30
       Tracing: Active
